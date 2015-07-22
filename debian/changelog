@@ -1,5 +1,6 @@
 pyabiword (0.8.0-9) unstable; urgency=low
 
+  [ Jonas Smedegaard ]
   * Update package relations:
     + Build-depend on librdf-dev, librasqal-dev, libgtk-3-dev (and not
       libgtk2.0-dev), libwmf-dev, libfreetype6-dev, libz-dev,
@@ -14,7 +15,7 @@ pyabiword (0.8.0-9) unstable; urgency=low
   * Bump debhelper compat level to 7.
   * Git-ignore quilt .pc dir.
 
- -- Jonas Smedegaard <dr@jones.dk>  Tue, 17 Jan 2012 23:26:08 +0100
+ -- Plan Ceibal <ceibal@plan.ceibal.edu.uy>  Wed, 22 Jul 2015 09:22:55 -0300
 
 pyabiword (0.8.0-8.1) unstable; urgency=low
 
