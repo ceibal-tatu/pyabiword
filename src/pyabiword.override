@@ -1,0 +1,100 @@
+/* -*- Mode: C; c-basic-offset: 4 -*- */
+%%
+headers
+#include <Python.h>
+#include "pygobject.h"
+
+#include <gtk/gtk.h>
+#include <libabiword.h>
+
+%%
+modulename abi
+%%
+import gtk.Bin as PyGtkBin_Type
+import gtk.Button as PyGtkButton_Type
+import gtk.Widget as PyGtkWidget_Type
+%%
+%%
+ignore-glob
+  *_get_type
+%%
+override abi_table_get_selected noargs
+static PyObject *
+_wrap_abi_table_get_selected (PyGObject *self)
+{
+    guint rows,cols;
+    abi_table_get_selected(ABITABLE_WIDGET(self->obj),&rows,&cols);
+    return Py_BuildValue("(ii)", rows, cols);
+}
+%%
+override abi_table_get_max_size noargs
+static PyObject *
+_wrap_abi_table_get_max_size(PyGObject *self)
+{
+    guint rows,cols;
+    abi_table_get_max_size(ABITABLE_WIDGET(self->obj),&rows,&cols);
+    return Py_BuildValue("(ii)", rows, cols);
+}
+%%
+override abi_widget_get_content kwargs
+static PyObject *
+_wrap_abi_widget_get_content (PyGObject *self, PyObject *args,
+				    PyObject*kwargs)
+{
+    static char *kwlist[] = { "extension_or_mimetype", "exp_props", NULL };
+    gchar *bytes;
+    gchar *extension_or_mimetype;
+    gchar *exp_props = 0;
+    gint iLength;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+				     "s|s:AbiWidget.content", kwlist,
+				     &extension_or_mimetype, &exp_props))
+	return NULL;
+    bytes = abi_widget_get_content(ABI_WIDGET(self->obj), extension_or_mimetype, exp_props, &iLength);
+
+    return PyString_FromStringAndSize(bytes, iLength-1 /* don't include the \0 that abi_widget_get_content does count */);
+}
+%%
+override abi_widget_get_selection kwargs
+static PyObject *
+_wrap_abi_widget_get_selection (PyGObject *self, PyObject *args,
+				    PyObject*kwargs)
+{
+    static char *kwlist[] = { "extension_or_mimetype", NULL };
+    gchar *bytes;
+    gchar *extension_or_mimetype;
+    gint iLength;
+
+    if (!PyArg_ParseTupleAndKeywords(args, kwargs,
+				     "s::AbiWidget.selection", kwlist,
+				     &extension_or_mimetype))
+	return NULL;
+    bytes = abi_widget_get_selection(ABI_WIDGET(self->obj), extension_or_mimetype ,&iLength);
+    return Py_BuildValue("(si)", bytes, iLength);
+}
+%%
+override abi_widget_get_font_names kwargs
+static PyObject *
+_wrap_abi_widget_get_font_names(PyGObject *self,  PyObject *args, PyObject* kwargs)
+{
+    const gchar** fonts, **tmp;
+    int i = 0, j;
+    PyObject *py_list;
+
+    fonts = (const gchar **)abi_widget_get_font_names(ABI_WIDGET(self->obj));
+    if (!fonts)
+        return PyTuple_New(0);
+        
+    tmp = fonts;
+    while (*tmp)
+        tmp++, i++;
+
+    py_list = PyList_New(0);
+    for (j = 0; j < i; j++)
+        PyList_Append(py_list, PyString_FromString(fonts[j]));
+
+    g_free(fonts);
+    return py_list;
+}
+

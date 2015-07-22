@@ -1,0 +1,139 @@
+pyabiword (0.8.0-9) unstable; urgency=low
+
+  * Update package relations:
+    + Build-depend on librdf-dev, librasqal-dev, libgtk-3-dev (and not
+      libgtk2.0-dev), libwmf-dev, libfreetype6-dev, libz-dev,
+      libx11-dev, libexpat-dev, libjpeg-dev, libpng-dev, libxml2-dev.
+    + Stop build-depending on libgoffice-0.8-dev.
+    Above are (updates to) workarounds for libabiword-2.9-dev and
+    libwv-dev lacking needed build-dependencies (bug#656252 and
+    #656263).
+    Closes: bug#655802.
+    + Build-depend unversioned generally (needed versions satisfied even
+      in oldstable).
+  * Bump debhelper compat level to 7.
+  * Git-ignore quilt .pc dir.
+
+ -- Jonas Smedegaard <dr@jones.dk>  Tue, 17 Jan 2012 23:26:08 +0100
+
+pyabiword (0.8.0-8.1) unstable; urgency=low
+
+  * Non-maintainer upload.
+  * Drop unused Build-Depends on libgucharmap2-dev. Closes: #648028
+  * Build-Depend on libabiword-2.9-dev instead of libabiword-2.8-dev.
+    Closes: #647792
+  * Update configure.ac to check for abiword-2.9.
+  * Use dh-autreconf to update the build system.
+
+ -- Michael Biebl <biebl@debian.org>  Tue, 08 Nov 2011 22:27:39 +0100
+
+pyabiword (0.8.0-8) unstable; urgency=low
+
+  * Use Python helper python2 (not python-support).
+    Closes: bug#616955. Thanks to Matthias Klose and أحمد المحمودي.
+  * Avoid .la files.
+    Closes: bug#633201. Thanks to Neil Williams.
+  * Rewrite copyright file using draft 174 of DEP-5 format.
+  * Bump policy compliance to standards-version 3.9.2.
+
+ -- Jonas Smedegaard <dr@jones.dk>  Thu, 25 Aug 2011 13:18:59 +0200
+
+pyabiword (0.8.0-7) unstable; urgency=low
+
+  * Reformat copyright file, using Subversion draft rev.166 of DEP5.
+
+ -- Jonas Smedegaard <dr@jones.dk>  Mon, 14 Feb 2011 14:30:43 +0100
+
+pyabiword (0.8.0-6) unstable; urgency=low
+
+  * Drop all local CDBS snippets: included with main cdbs package now.
+  * Ease building with git-buildpackage: Git-ignore quilt .pc dir, and
+    add source local-options.
+  * Shorten control file Vcs-* fields.
+  * Bump Policy compliance to standards-version 3.9.1.
+  * Simplify control file XS-Python-Version fields (needed version
+    satisfied even in Debian oldstable).
+  * Refer to FSF website (not postal address) in rules file licensing
+    header.
+  * Drop explicit build-dependencies auto-resolved in recent cdbs.
+  * Update copyright file:
+    + Fix license section: Expat _and_ other-X (not or).
+    + Rewrap license sections Expat and other-X.
+    + Add comment on Expat variation.
+    + Drop references to cdbs snippets (no longer locally shipped).
+    + Fix treat Autoconf and Libtool notes as exceptions (not separate
+      licenses).
+
+ -- Jonas Smedegaard <dr@jones.dk>  Sat, 30 Oct 2010 00:23:56 +0200
+
+pyabiword (0.8.0-5) unstable; urgency=low
+
+  * Build-depend on libgoffice-0.8-dev (not dropped libgoffice-0-8-dev).
+    Closes: bug#573690, thanks to Lucas Nussbaum.
+  * Drop unused local CDBS snippet package-relations.mk: Needed routines
+    now included in main cdbs.
+
+ -- Jonas Smedegaard <dr@jones.dk>  Tue, 16 Mar 2010 13:55:00 +0100
+
+pyabiword (0.8.0-4) unstable; urgency=low
+
+  * Use more of (newly added) main cdbs and drop most local snippets.
+  * Shrink local package-relations.mk to only handle binary relations:
+    Build-dependency improvements in buildcore.mk since cdbs 0.6.70.
+  * Sync autotools.mk and makefile.mk with HEAD of main CDBS git.
+  * Update copyright file: Bump a year.
+  * Relax build-dependency on python-all-dev.
+  * Tighten build-depdnency on cdbs.
+  * This should "accidentally" fix linkage with libgoffice. Closes:
+    bug#573142, thanks to Sascha Silbe.
+
+ -- Jonas Smedegaard <dr@jones.dk>  Wed, 10 Mar 2010 07:09:50 +0100
+
+pyabiword (0.8.0-3) unstable; urgency=low
+
+  * Update local CDBS snippets:
+    + package-relations.mk:
+      - Merge mixture of versioned and unversioned dependencies
+      - Use unversioned dependencies when satisfied in oldstable
+      - Improve whitespace cleanup
+      - Rewrite and silence applying dependencies
+      - Handle cdbs 0.4.53 dependency (needed when using debhelper v7)
+    + upstream-tarball.mk:
+      - Depend unversioned on cdbs (the needed 0.4.39 is in oldstable)
+      - Preserve bzip2 tarballs with source format '3.0 (quilt)'.
+    + copyright-check.mk:
+      - More aggressive scanning (check top 99999 lines, not just 60)
+      - Simplify more licensing notices and preserve non-ASCII chars
+      - Group hints by sorted owner list (ignoring years)
+      - Limit console output both horisontally and vertically
+      - Use rev123 of draft DEP5 for hints file
+  * Build unversioned on cdbs, thanks to CDBS dependency tracking.
+  * Bump Standards-Version to 3.8.4.
+  * Fix GPL parts of copyright file, and reformat as draft DEP3 rev135:
+    + Comma-delimit files
+    + Add leading ./ to files
+    + Use standard license short-name Expat
+    + Rename some license short-names for improved clarity
+    + Fix license section GPL-2+ to include verbatim GPL-reference text.
+    + Fix license section GPL-2+ to refer to FSF website (as in
+      py-compile, not postal address as common in other (older?) cases).
+      Place the website reference below Debian-specific reference to
+      actual license file, to slightly emphasize that it is a local edit
+      (not copied verbatim from an upstream file).
+  * Include examples dir as, well, examples.
+
+ -- Jonas Smedegaard <dr@jones.dk>  Wed, 17 Feb 2010 15:01:06 +0100
+
+pyabiword (0.8.0-2) unstable; urgency=low
+
+  * Switch to source format 3.0 (quilt).
+  * Release for unstable.
+
+ -- Jonas Smedegaard <dr@jones.dk>  Fri, 08 Jan 2010 14:59:44 +0100
+
+pyabiword (0.8.0-1) experimental; urgency=low
+
+  * Initial release (targeting experimental, as it FTBFS due to
+    bug#557021). Closes: bug#557101.
+
+ -- Jonas Smedegaard <dr@jones.dk>  Thu, 19 Nov 2009 16:58:04 +0100
