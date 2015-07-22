@@ -1,0 +1,48 @@
+#!/usr/bin/make -f
+# -*- mode: makefile; coding: utf-8 -*-
+# Copyright © 2009-2010 Jonas Smedegaard <dr@jones.dk>
+# Description: Main Debian packaging script for pyabiword
+#
+# This program is free software; you can redistribute it and/or
+# modify it under the terms of the GNU General Public License as
+# published by the Free Software Foundation; either version 2, or (at
+# your option) any later version.
+#
+# This program is distributed in the hope that it will be useful, but
+# WITHOUT ANY WARRANTY; without even the implied warranty of
+# MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the GNU
+# General Public License for more details.
+#
+# You should have received a copy of the GNU General Public License
+# along with this program.  If not, see <http://www.gnu.org/licenses/>.
+
+DEB_BUILDDIR = build
+include /usr/share/cdbs/1/rules/upstream-tarball.mk
+include /usr/share/cdbs/1/rules/utils.mk
+include /usr/share/cdbs/1/rules/debhelper.mk
+include /usr/share/cdbs/1/rules/autoreconf.mk
+include /usr/share/cdbs/1/class/python-autotools.mk
+
+DEB_DH_AUTORECONF_ARGS = autoreconf -- -vfi -I.
+
+DEB_UPSTREAM_URL = http://www.abisource.com/downloads/pyabiword/$(DEB_UPSTREAM_VERSION)
+DEB_UPSTREAM_TARBALL_MD5 = 826ea3e4cdcdd11906ce8739d07e6c26
+
+DEB_INSTALL_EXAMPLES_python-abiword = examples/*
+
+# Needed by upstream build process
+CDBS_BUILD_DEPENDS += , dh-autoreconf, libabiword-2.9-dev, python-gtk2-dev
+
+# workaround for missing build-dependencies of libabiword-2.8-dev (bug#656252)
+CDBS_BUILD_DEPENDS += , libfribidi-dev, libglib2.0-dev, libgsf-1-dev, libwv-dev, libenchant-dev, librdf-dev, librasqal-dev, libcairo-dev, libpango1.0-dev, libgtk-3-dev, librsvg2-dev
+
+# workaround for missing build-dependencies of libwv-1.2-dev (bug#656263)
+CDBS_BUILD_DEPENDS += , libwmf-dev, libfreetype6-dev, libz-dev, libx11-dev, libexpat-dev, libjpeg-dev, libpng-dev, libxml2-dev, libglib2.0-dev, libgsf-1-dev
+
+# Avoid .la files - see http://wiki.debian.org/ReleaseGoals/LAFileRemoval
+common-binary-post-install-arch::
+	find '$(cdbs_curdestdir)' -name '*.la' -delete
+
+# force-clean builddir (cleanup bug in multiflavor routine?)
+clean::
+	rm -rf $(DEB_BUILDDIR)
